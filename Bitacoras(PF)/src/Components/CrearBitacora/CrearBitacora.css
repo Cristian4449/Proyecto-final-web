@@ -1,0 +1,92 @@
+body {
+  background: linear-gradient(135deg, #001303, #a6d0a4);
+}
+
+.bitacora-container {
+  width: 50%;
+  margin: 20px auto;
+  border: 2px solid #000;
+  border-radius: 10px;
+  text-align: center;
+  background-color: white;
+}
+
+#titulo {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(59, 107, 59);
+  justify-content: center;
+  align-content: center;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 10px;
+}
+
+#titulo label {
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  height: 100%;
+  /* transition: ease 0.3s; */
+}
+
+/* #titulo label:hover {
+  transform: scale(1.2);
+} */
+
+.bitacora-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 20px;
+  margin-bottom: 45px;
+  align-items: center;
+  justify-content: center;
+}
+
+h4{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+button {
+  background-color: rgb(59, 107, 59);
+  width: 80%;
+  height: auto;
+  padding: 10px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inputBox {
+  width: 100%;
+  position: relative;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.entradas {
+  font-size: 16px;
+  padding: 10px;
+  display: block;
+  width: 100%;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s;
+  text-align: center;
+}
+
+.entradas:focus {
+  border-color: #6fcf00;
+}
+
+.buttonBitacora {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  justify-items: center;
+}
