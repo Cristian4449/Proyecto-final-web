@@ -5,8 +5,6 @@
 }
 
 .App{
-  display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-columns: 1fr 4fr;
 }

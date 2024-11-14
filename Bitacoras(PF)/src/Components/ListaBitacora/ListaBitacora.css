@@ -1,0 +1,86 @@
+#lista-bitacoras-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #001303, #a6d0a4);
+    font-family: Arial, sans-serif;
+}
+
+#lista-bitacoras-container {
+    border-radius: 1rem;
+    background-color: white;
+    width: 40%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#titulo {
+    display: flex;
+    width: 100%;
+    background-color: rgb(59, 107, 59);
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 10px;
+}
+
+#titulo h1 {
+    color: white;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+#filter-sort-buttons {
+    display: flex;
+    justify-content: space-between; /* Alinea el select a la izquierda y el botón a la derecha */
+    margin-bottom: 20px;
+    align-items: center;
+    width: 100%; /* Asegura que el contenedor ocupe el ancho completo */
+    padding: 0px 50px;
+}
+
+#filter-select {
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#sort-button {
+    padding: 8px 15px;
+    font-size: 1em;
+    border: none;
+    background-color: rgb(59, 107, 59);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 20%;
+}
+
+#bitacoras-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.bitacora-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.action-buttons .edit-button,
+.action-buttons .delete-button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    border: none;
+    background-color: rgb(59, 107, 59);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}

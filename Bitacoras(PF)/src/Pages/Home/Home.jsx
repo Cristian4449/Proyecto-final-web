@@ -20,10 +20,12 @@ const Home = () => {
             <div id="body">
                 <Paper id="home-container">
                     <header id="home-header">
-                        <span onClick="" id="logout-button">Cerrar sesión</span>
+                        <span id="logout-button">Cerrar sesión</span>
                         <span>Investigadores</span>
                     </header>
-                    <h1 id= "titulo">Home</h1>
+                    <div id="titulo">
+                        <h1>Home</h1>
+                    </div>
                     <div id="button-group">
                         <button>Crear Bitácora</button>
                     </div>
@@ -49,9 +51,9 @@ const Home = () => {
                                 </tbody>
                             </table>
                         </div>
-                            <button id="view-button" onClick={handleView}>
+                        <button id="view-button" onClick={handleView}>
                             Ir a la lista de bitácoras
-                            </button>
+                        </button>
                     </div>
                 </Paper>
             </div>
@@ -61,10 +63,12 @@ const Home = () => {
         <div id="body">
             <Paper id="home-container">
                 <header id="home-header">
-                    <span onClick="" id="logout-button">Cerrar sesión</span>
+                    <span id="logout-button">Cerrar sesión</span>
                     <span>Admin</span>
                 </header>
-                <h1 id="titulo">Home</h1>
+                <div id="titulo">
+                    <h1>Home</h1>
+                </div>
                 <div id="button-group">
                     <button>Crear Bitácora</button>
                     <button>Gestionar usuarios</button>
@@ -91,9 +95,9 @@ const Home = () => {
                             </tbody>
                         </table>
                     </div>
-                        <button id="view-button" onClick={handleView}>
-                            Ir a la lista de bitácoras
-                        </button>
+                    <button id="view-button" onClick={handleView}>
+                        Ir a la lista de bitácoras
+                    </button>
                 </div>
             </Paper>
         </div>
