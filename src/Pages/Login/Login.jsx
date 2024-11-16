@@ -4,17 +4,27 @@ import {
   Typography,
   TextField,
   Button,
-  Link,
   Container,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import logo from "../../assets/ingSis.png";
 
 function Login() {
   return (
     <Container id="body" maxWidth="sm">
       <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <img src={logo} alt="Logo Ingeniería de Sistemas" style={{ width: 100, marginBottom: 16 }} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={logo}
+            alt="Logo Ingeniería de Sistemas"
+            style={{ width: 100, marginBottom: 16 }}
+          />
           <Typography variant="h4" component="h2" gutterBottom>
             Iniciar sesión
           </Typography>
@@ -44,14 +54,16 @@ function Login() {
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Iniciar Sesión
             </Button>
-            <Button type="button" variant="outlined" color="secondary" fullWidth>
-              <Link href="/registro">
-                Registrarse
-              </Link>
+            <Button
+              component={Link}
+              to="/registro"
+              type="button"
+              variant="outlined"
+              color="secondary"
+              fullWidth
+            >
+              Registrarse
             </Button>
-            <Link href="#" variant="body2">
-              ¿Olvidó su contraseña?
-            </Link>
           </Box>
         </Box>
         <Box sx={{ marginTop: 4, textAlign: "center" }}>

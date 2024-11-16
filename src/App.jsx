@@ -31,8 +31,8 @@ function App() {
       <AuthProvider>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/registro" element={<Register />} />
             <Route path="/crear-bitacora" element={<CrearBitacora />} />
             <Route path="/detalle-especies" element={<DetalleEspecies />} />
