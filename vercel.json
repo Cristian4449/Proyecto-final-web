@@ -1,0 +1,10 @@
+{
+    "routes": [],
+    "rewrites": [
+      {
+        "source": "/.well-known/vercel/microfrontend-routing",
+        "destination": "/404"
+      }
+    ]
+  }
+  
