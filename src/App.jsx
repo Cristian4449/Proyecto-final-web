@@ -6,6 +6,8 @@ import CrearBitacora from "./Components/CrearBitacora/CrearBitacora";
 import DetalleEspecies from "./Components/DetallesEspecies/DetallesEspecies";
 import Spinner from "./Components/Spinner";
 import { useCheckBackend } from "./hooks/useCheckBackend";
+import Login from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
 import "./App.css";
 
 function App() {
@@ -17,9 +19,9 @@ function App() {
 
   if (!backendReady) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-lg">
-          El backend no está disponible, por favor intenta más tarde.
+      <div className="backend-error-container">
+        <p className="backend-error-message">
+          El backend no está disponible, por favor intenta más tarde o contacta con los administradores.
         </p>
       </div>
     );
@@ -30,6 +32,8 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Register />} />
             <Route path="/crear-bitacora" element={<CrearBitacora />} />
             <Route path="/detalle-especies" element={<DetalleEspecies />} />
           </Routes>

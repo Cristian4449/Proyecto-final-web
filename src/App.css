@@ -9,3 +9,14 @@
   width: 100vw;
   background: linear-gradient(135deg, #046313, #a6d0a4);
 }
+
+.backend-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.backend-error-message {
+  font-size: 1.125rem; /* text-lg */
+}

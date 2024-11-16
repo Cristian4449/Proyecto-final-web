@@ -1,42 +1,70 @@
-import "./Login.css";
-import Paper from "@mui/material/Paper";
-import logo from '../../assets/ingSis.png';
+import {
+  Paper,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Link,
+  Container,
+} from "@mui/material";
+import logo from "../../assets/ingSis.png";
 
 function Login() {
   return (
-    <div id="body">
-      <Paper square elevation={3} id='paper-root'>
-        <div className="login-container">
-          <div className="login-box">
-            <img src={logo} alt="Logo Ingeniería de Sistemas" className="logo" />
-            <h2>
-              PROYECTO FINAL
-              <br />
-              PROGRAMACIÓN WEB G2
-            </h2>
-            <form>
-              <input type="email" placeholder="Correo" required />
-              <input type="password" placeholder="Contraseña" required />
-              <button type="submit">Iniciar Sesión</button>
-              <button type="button">Registrarse</button>
-              <a href="#" className="forgot-password">
-                ¿Olvidó su contraseña?
-              </a>
-            </form>
-            
-          </div>
-          <div id="footer">
-              <p>
-                Copyright © 2024 Universidad de la Amazonia
-                <br />
-                Ingeniería de Sistemas
-                <br />
-                Programación Web Grupo 2.
-              </p>
-            </div>
-        </div>
+    <Container id="body" maxWidth="sm">
+      <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <img src={logo} alt="Logo Ingeniería de Sistemas" style={{ width: 100, marginBottom: 16 }} />
+          <Typography variant="h4" component="h2" gutterBottom>
+            Iniciar sesión
+          </Typography>
+          <Box
+            component="form"
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: "100%",
+            }}
+          >
+            <TextField
+              type="email"
+              label="Correo"
+              variant="outlined"
+              fullWidth
+              required
+            />
+            <TextField
+              type="password"
+              label="Contraseña"
+              variant="outlined"
+              fullWidth
+              required
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Iniciar Sesión
+            </Button>
+            <Button type="button" variant="outlined" color="secondary" fullWidth>
+              <Link href="/registro">
+                Registrarse
+              </Link>
+            </Button>
+            <Link href="#" variant="body2">
+              ¿Olvidó su contraseña?
+            </Link>
+          </Box>
+        </Box>
+        <Box sx={{ marginTop: 4, textAlign: "center" }}>
+          <Typography variant="body2" color="textSecondary">
+            Copyright © 2024 Universidad de la Amazonia
+            <br />
+            Ingeniería de Sistemas
+            <br />
+            Programación Web Grupo 2.
+          </Typography>
+        </Box>
       </Paper>
-    </div>
+    </Container>
   );
 }
 
