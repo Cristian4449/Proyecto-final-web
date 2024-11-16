@@ -1,4 +1,3 @@
-import React from "react";
 import "./Login.css";
 import Paper from "@mui/material/Paper";
 import logo from '../../assets/ingSis.png';

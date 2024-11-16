@@ -1,4 +1,3 @@
-import React from "react";
 import "./Home.css";
 import Paper from "@mui/material/Paper";
 
