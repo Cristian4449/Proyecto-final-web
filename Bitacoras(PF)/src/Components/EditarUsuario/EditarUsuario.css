@@ -1,0 +1,83 @@
+#editar-usuario-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #046313, #a6d0a4);
+    font-family: Arial, sans-serif;
+}
+
+#titulo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(59, 107, 59);
+    justify-content: center;
+    align-content: center;
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 10px;
+
+}
+
+#editar-usuario-container {
+    border-radius: 1rem;
+    background-color: white;
+    width: 40%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#usuario-info {
+    margin-bottom: 20px;
+}
+
+#usuario-nombre {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#nuevo-rol {
+    margin-bottom: 20px;
+}
+
+#rol-select {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#back-button,
+#save-button {
+    padding: 8px 16px;
+    font-size: 1em;
+    border: none;
+    background-color: rgb(59, 107, 59);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+}
+
+#back-button {
+    background-color: rgb(224, 64, 64);
+    margin: 20px;
+    /* Botón "Atrás" en rojo */
+}
+
+#save-button {
+    background-color: rgb(59, 107, 59);
+    margin: 20px;
+    /* Botón "Guardar" en verde */
+}

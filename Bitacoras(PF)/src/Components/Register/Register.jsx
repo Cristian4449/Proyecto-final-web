@@ -14,11 +14,16 @@ function Register() {
               alt="Logo Ingeniería de Sistemas"
               className="logo"
             />
-            <h2>Crear cuenta</h2>
-            <form>
+            <h2>Crear usuario</h2>
+            <form id="creacion-usuario">
               <input type="text" placeholder="Usuario" required />
               <input type="password" placeholder="Contraseña" required />
-              <button type="submit">Registrarse</button>
+              <label htmlFor="">Elegir rol:</label>
+              <select id="roles" name="roles" form="creacion-usuario" required>
+                <option value="Investigador">Investigador</option>
+                <option value="Colaborador">Colaborador</option>
+              </select>
+              <button type="submit">Registrar</button>
             </form>
             <button type="button">Volver</button>
           </div>
