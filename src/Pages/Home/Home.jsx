@@ -1,106 +1,110 @@
-import "./Home.css";
-import Paper from "@mui/material/Paper";
-
-const Home = () => {
-    let id = 1;
-
+import {
+    Paper,
+    Box,
+    Typography,
+    Button,
+    TableContainer,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    AppBar,
+    Toolbar,
+  } from "@mui/material";
+  import useUserStore from "../../store/state/useUserStore";
+  import { useNavigate } from "react-router-dom";
+  
+  const Home = () => {
+    const user = useUserStore((state) => state.user);
+    const navigate = useNavigate();
+  
     const bitacoras = [
-        { id: 1, nombre: 'Bitácora 1', fecha: '2024-01-01' },
-        { id: 2, nombre: 'Bitácora 2', fecha: '2024-02-01' },
-        // Agrega más registros aquí según necesites
+      { id: 1, nombre: "Bitácora 1", fecha: "2024-01-01" },
+      { id: 2, nombre: "Bitácora 2", fecha: "2024-02-01" },
     ];
-
+  
     const handleView = () => {
-        console.log("Navegando a la nueva vista");
+      console.log("Navegando a la nueva vista");
+    };
+  
+    const handleLogout = () => {
+      console.log("Cerrar sesión");
     };
 
-    if (id === 0) {
-        return (
-            <div id="body">
-                <Paper id="home-container">
-                    <header id="home-header">
-                        <span id="logout-button">Cerrar sesión</span>
-                        <span>Investigadores</span>
-                    </header>
-                    <div id="titulo">
-                        <h1>Home</h1>
-                    </div>
-                    <div id="button-group">
-                        <button>Crear Bitácora</button>
-                    </div>
-                    <div id="log-list">
-                        <p>Lista de Bitácoras</p>
-                        <div id="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Fecha</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {bitacoras.map((bitacora) => (
-                                        <tr key={bitacora.id}>
-                                            <td>{bitacora.id}</td>
-                                            <td>{bitacora.nombre}</td>
-                                            <td>{bitacora.fecha}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <button id="view-button" onClick={handleView}>
-                            Ir a la lista de bitácoras
-                        </button>
-                    </div>
-                </Paper>
-            </div>
-        );
-    }
+    const handleUsuarios = () => {
+      navigate("/usuarios");
+    };
+  
     return (
-        <div id="body">
-            <Paper id="home-container">
-                <header id="home-header">
-                    <span id="logout-button">Cerrar sesión</span>
-                    <span>Admin</span>
-                </header>
-                <div id="titulo">
-                    <h1>Home</h1>
-                </div>
-                <div id="button-group">
-                    <button>Crear Bitácora</button>
-                    <button>Gestionar usuarios</button>
-                </div>
-                <div id="log-list">
-                    <p>Lista de Bitácoras</p>
-                    <div id="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Fecha</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {bitacoras.map((bitacora) => (
-                                    <tr key={bitacora.id}>
-                                        <td>{bitacora.id}</td>
-                                        <td>{bitacora.nombre}</td>
-                                        <td>{bitacora.fecha}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button id="view-button" onClick={handleView}>
-                        Ir a la lista de bitácoras
-                    </button>
-                </div>
-            </Paper>
-        </div>
+      <Box sx={{ padding: 4 }}>
+        <Paper elevation={3}>
+          {/* Header */}
+          <AppBar position="static" color="primary">
+            <Toolbar sx={{ justifyContent: "space-between" }}>
+              <Button color="inherit" onClick={handleLogout}>
+                Cerrar sesión
+              </Button>
+              <Typography variant="h6">{user?.username || "Investigadores"}</Typography>
+            </Toolbar>
+          </AppBar>
+  
+          {/* Título */}
+          <Box sx={{ textAlign: "center", marginTop: 4 }}>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Home
+            </Typography>
+          </Box>
+  
+          {/* Botones */}
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 2, marginBottom: 4 }}>
+            <Button variant="contained" color="primary">
+              Crear Bitácora
+            </Button>
+            <Button 
+            onClick={handleUsuarios}
+            variant="outlined" color="secondary">
+              Gestionar usuarios
+            </Button>
+          </Box>
+  
+          {/* Lista de Bitácoras */}
+          <Box>
+            <Typography variant="h6" gutterBottom>
+              Lista de Bitácoras
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell>Fecha</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bitacoras.map((bitacora) => (
+                    <TableRow key={bitacora.id}>
+                      <TableCell>{bitacora.id}</TableCell>
+                      <TableCell>{bitacora.nombre}</TableCell>
+                      <TableCell>{bitacora.fecha}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+  
+          {/* Botón para lista de bitácoras */}
+          <Box sx={{ textAlign: "center", marginTop: 4 }}>
+            <Button variant="contained" color="primary" onClick={handleView}>
+              Ir a la lista de bitácoras
+            </Button>
+          </Box>
+        </Paper>
+      </Box>
     );
-};
-
-export default Home;
+  };
+  
+  export default Home;
+  
