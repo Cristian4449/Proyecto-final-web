@@ -11,18 +11,32 @@ import {
   TableCell,
   TableBody,
   CircularProgress,
+  TablePagination,
 } from "@mui/material";
-import { getUsers, deleteUser } from "../../services/userService";
-import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { getUsers, deleteUser, updateUser } from "../../services/userService";
+import { getRoles } from "../../services/roleService";
+import EditUserModal from "../../Components/EditarUsuario/EditarUsuario";
+import { useNavigate } from "react-router-dom";
 
 const Users = () => {
+  const navigate = useNavigate();
   const [usuarios, setUsuarios] = useState([]);
+  const [availableRoles, setAvailableRoles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    roles: [],
+    status: "",
+  });
+  const [isActionLoading, setIsActionLoading] = useState(false); // Estado de carga para acciones
+  const [page, setPage] = useState(0); // Paginación: página actual
+  const [rowsPerPage, setRowsPerPage] = useState(5); // Paginación: filas por página
 
-  // Obtener usuarios desde el servicio
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
@@ -36,11 +50,32 @@ const Users = () => {
       }
     };
 
+    const fetchRoles = async () => {
+      try {
+        const rolesData = await getRoles(); // Devuelve un array de objetos
+        setAvailableRoles(rolesData.map((role) => role.name)); // Extrae solo los nombres
+      } catch (err) {
+        console.error("Error obteniendo roles:", err);
+      }
+    };
+
     fetchUsuarios();
+    fetchRoles();
   }, []);
 
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setFormData({
+      username: user.username,
+      email: user.email || "",
+      roles: user.roles,
+      status: user.status,
+    });
+    setOpenModal(true);
+  };
+
   const handleDeleteUser = async (userId) => {
-    // Confirmar eliminación con SweetAlert
+    setIsActionLoading(true);
     const confirm = await Swal.fire({
       title: "¿Estás seguro?",
       text: "Esta acción no se puede deshacer.",
@@ -55,7 +90,6 @@ const Users = () => {
     if (confirm.isConfirmed) {
       try {
         await deleteUser(userId);
-        // Eliminar usuario del estado local
         setUsuarios((prevUsuarios) =>
           prevUsuarios.filter((usuario) => usuario.id !== userId)
         );
@@ -63,25 +97,92 @@ const Users = () => {
       } catch (err) {
         console.error(err);
         Swal.fire("Error", "No se pudo eliminar el usuario.", "error");
+      } finally {
+        setIsActionLoading(false);
       }
+    } else {
+      setIsActionLoading(false);
     }
   };
 
   const handleCreateUser = () => {
-    navigate("/", { replace: true });
+    navigate("/registro", { replace: true });
   };
 
-  const handleEditUser = (userId) => {
-    console.log(`Editando usuario con ID: ${userId}`);
+  const handleModalClose = () => {
+    setOpenModal(false);
+    setSelectedUser(null);
+    setFormData({
+      username: "",
+      email: "",
+      roles: [],
+      status: "",
+    });
   };
 
-  const handleBack = () => {
-    console.log("Navegando hacia atrás");
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleUpdateUser = async () => {
+    if (!formData.username.trim()) {
+      Swal.fire("Error", "El nombre de usuario es obligatorio.", "error");
+      return;
+    }
+
+    if (!formData.roles.length) {
+      Swal.fire("Error", "Debe asignar al menos un rol al usuario.", "error");
+      return;
+    }
+
+    try {
+      const updatedUser = {
+        username: formData.username,
+        email: formData.email || null,
+        roleNames: formData.roles,
+        status: formData.status,
+      };
+
+      console.log("Datos enviados al backend:", updatedUser);
+
+      await updateUser(selectedUser.id, updatedUser);
+
+      setUsuarios((prevUsuarios) =>
+        prevUsuarios.map((usuario) =>
+          usuario.id === selectedUser.id
+            ? { ...usuario, ...updatedUser }
+            : usuario
+        )
+      );
+
+      Swal.fire("Actualizado", "El usuario ha sido actualizado.", "success");
+      handleModalClose();
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "No se pudo actualizar el usuario.", "error");
+    }
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -100,21 +201,24 @@ const Users = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3} sx={{ padding: 4 }}>
-        {/* Título */}
         <Box sx={{ textAlign: "center", marginBottom: 4 }}>
           <Typography variant="h4" component="h2">
             Gestión de Usuarios
           </Typography>
         </Box>
 
-        {/* Botón para crear usuario */}
-        <Box sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}>
-          <Button variant="contained" color="primary" onClick={handleCreateUser}>
+        <Box
+          sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCreateUser}
+          >
             Crear Usuario
           </Button>
         </Box>
 
-        {/* Tabla de usuarios */}
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -127,44 +231,63 @@ const Users = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {usuarios.map((usuario) => (
-                <TableRow key={usuario.id}>
-                  <TableCell>{usuario.username}</TableCell>
-                  <TableCell>{usuario.email || "N/A"}</TableCell>
-                  <TableCell>{usuario.roles.join(", ")}</TableCell>
-                  <TableCell>{usuario.status}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      onClick={() => handleEditUser(usuario.id)}
-                      sx={{ marginRight: 1 }}
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                      onClick={() => handleDeleteUser(usuario.id)}
-                    >
-                      Eliminar
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {usuarios
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((usuario) => (
+                  <TableRow key={usuario.id}>
+                    <TableCell>{usuario.username}</TableCell>
+                    <TableCell>{usuario.email || "N/A"}</TableCell>
+                    <TableCell>{usuario.roles.join(", ")}</TableCell>
+                    <TableCell>{usuario.status}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => handleEditUser(usuario)}
+                        sx={{ marginRight: 1 }}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                        onClick={() => handleDeleteUser(usuario.id)}
+                        disabled={isActionLoading}
+                      >
+                        {isActionLoading ? (
+                          <CircularProgress size={16} />
+                        ) : (
+                          "Eliminar"
+                        )}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
 
-        {/* Botón para regresar */}
-        <Box sx={{ textAlign: "center", marginTop: 4 }}>
-          <Button variant="outlined" onClick={handleBack}>
-            Atrás
-          </Button>
-        </Box>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={usuarios.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </Paper>
+
+      <EditUserModal
+        open={openModal}
+        onClose={handleModalClose}
+        formData={formData}
+        onChange={handleInputChange}
+        onSave={handleUpdateUser}
+        availableRoles={availableRoles}
+      />
     </Box>
   );
 };

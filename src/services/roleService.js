@@ -3,7 +3,6 @@ import axios from "axios";
 export const getRoles = async () => {
   try {
     const response = await axios.get("/api/roles");
-    console.log("Roles:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error obteniendo roles:", error);

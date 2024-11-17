@@ -13,8 +13,6 @@ export const createUser = async (user) => {
 export const getUsers = async () => {
   try {
     const response = await axios.get("/api/user");
-    console.log("Usuarios:", response.data);
-    
     return response.data;
   } catch (error) {
     console.error("Error obteniendo usuarios:", error);
