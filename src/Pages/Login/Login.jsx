@@ -13,8 +13,9 @@ function Login() {
   const navigate = useNavigate();
 
   const handleRegistro = () => {
-    navigate('/registro');
+    navigate('/registro', { replace: true });
   };
+  
   return (
     <Container id="body" maxWidth="sm">
       <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>

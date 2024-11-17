@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = () => {
-      const publicRoutes = ["/", "/register"];
+      const publicRoutes = ["/", "/registro"];
       if (!token && !publicRoutes.includes(location.pathname)) {
         navigate('/');
       }

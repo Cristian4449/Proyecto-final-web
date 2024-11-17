@@ -149,7 +149,7 @@ function Register() {
               variant="outlined"
               color="secondary"
               fullWidth
-              href="/login"
+              href="/"
             >
               ¿Ya tienes cuenta? Inicia sesión
             </Button>
