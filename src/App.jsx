@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import Home from "./Pages/Home/Home";
-import CrearBitacora from "./Components/CrearBitacora/CrearBitacora";
+import CrearBitacora from "./Pages/CrearBitacora/CrearBitacora";
 import DetalleEspecies from "./Components/DetallesEspecies/DetallesEspecies";
 import Spinner from "./Components/Spinner";
 import { useCheckBackend } from "./hooks/useCheckBackend";
