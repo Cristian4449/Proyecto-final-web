@@ -29,7 +29,7 @@ import {
     };
   
     const handleLogout = () => {
-      console.log("Cerrar sesión");
+      navigate("/");
     };
 
     const handleUsuarios = () => {
