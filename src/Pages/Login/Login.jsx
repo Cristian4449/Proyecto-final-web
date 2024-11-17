@@ -6,10 +6,15 @@ import {
   Button,
   Container,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import logo from "../../assets/ingSis.png";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
+
+  const handleRegistro = () => {
+    navigate('/registro');
+  };
   return (
     <Container id="body" maxWidth="sm">
       <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>
@@ -55,8 +60,7 @@ function Login() {
               Iniciar Sesión
             </Button>
             <Button
-              component={Link}
-              to="/registro"
+              onClick={handleRegistro}
               type="button"
               variant="outlined"
               color="secondary"
