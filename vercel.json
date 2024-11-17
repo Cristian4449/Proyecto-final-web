@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/.well-known/vercel/microfrontend-routing",
-      "destination": "/404"
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
