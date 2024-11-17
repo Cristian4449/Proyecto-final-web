@@ -12,12 +12,15 @@ import {
   TableBody,
   CircularProgress,
 } from "@mui/material";
-import { getUsers } from "../../services/userService";
+import { getUsers, deleteUser } from "../../services/userService";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Users = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Obtener usuarios desde el servicio
   useEffect(() => {
@@ -36,16 +39,40 @@ const Users = () => {
     fetchUsuarios();
   }, []);
 
+  const handleDeleteUser = async (userId) => {
+    // Confirmar eliminación con SweetAlert
+    const confirm = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción no se puede deshacer.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (confirm.isConfirmed) {
+      try {
+        await deleteUser(userId);
+        // Eliminar usuario del estado local
+        setUsuarios((prevUsuarios) =>
+          prevUsuarios.filter((usuario) => usuario.id !== userId)
+        );
+        Swal.fire("Eliminado", "El usuario ha sido eliminado.", "success");
+      } catch (err) {
+        console.error(err);
+        Swal.fire("Error", "No se pudo eliminar el usuario.", "error");
+      }
+    }
+  };
+
   const handleCreateUser = () => {
-    console.log("Navegando a la creación de usuario");
+    navigate("/", { replace: true });
   };
 
   const handleEditUser = (userId) => {
     console.log(`Editando usuario con ID: ${userId}`);
-  };
-
-  const handleDeleteUser = (userId) => {
-    console.log(`Eliminando usuario con ID: ${userId}`);
   };
 
   const handleBack = () => {
