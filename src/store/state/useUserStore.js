@@ -4,16 +4,19 @@ import { persist } from 'zustand/middleware';
 const useUserStore = create(
   persist(
     (set, get) => ({
-      userId: null,
+      user: null,
       token: null,
       isAuthenticated: false,
       
-      login: (userId, token) => {
-        set({ userId, token, isAuthenticated: true });
+      // Iniciar sesión y establecer usuario
+      login: (user, token) => {
+        set({ user, token, isAuthenticated: true });
       },
-      
-      logout: () => set({ userId: null, token: null, isAuthenticated: false }),
-      
+
+      // Cerrar sesión y limpiar estado
+      logout: () => set({ user: null, token: null, isAuthenticated: false }),
+
+      // Verificar si el token es válido
       verifyToken: () => {
         const { token } = get();
         if (token) {
