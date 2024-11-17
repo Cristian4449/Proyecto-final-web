@@ -15,75 +15,101 @@ import {
 } from "@mui/material";
 import Swal from "sweetalert2";
 import { createBitacora } from "../../services/bitacoraService";
+import "leaflet/dist/leaflet.css";
+import useUserStore from "../../store/state/useUserStore";
 
 const CrearBitacora = () => {
+  const user = useUserStore((state) => state.user);
   const [formData, setFormData] = useState({
     titulo: "",
-    fecha: "",
+    fechaMuestreo: "",
     condicionesClimaticas: "",
-    coordenadas: "",
+    localizacion: { latitud: "", longitud: "" },
     descripcionHabitat: "",
+    creadoPor: user.id
   });
 
-  const [markerPosition, setMarkerPosition] = useState([51.505, -0.09]); // Coordenadas iniciales
+  const [markerPosition, setMarkerPosition] = useState([51.505, -0.09]);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    if (name === "latitud" || name === "longitud") {
+      setFormData({
+        ...formData,
+        localizacion: {
+          ...formData.localizacion,
+          [name]: value,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // Validar que las coordenadas sean válidas
+    const { latitud, longitud } = formData.localizacion;
+    if (!latitud || !longitud || isNaN(latitud) || isNaN(longitud)) {
+      Swal.fire("Error", "Las coordenadas deben ser números válidos.", "error");
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.creadoPor) {
+      Swal.fire("Error", "Debe especificar el ID del creador.", "error");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await createBitacora({
+      const payload = {
         ...formData,
-        coordenadas: `${markerPosition[0]}, ${markerPosition[1]}`,
-      });
+        localizacion: {
+          latitud: parseFloat(latitud),
+          longitud: parseFloat(longitud),
+        },
+      };
+
+      await createBitacora(payload);
       Swal.fire("Éxito", "Bitácora creada exitosamente.", "success");
+
+      // Reiniciar el formulario
       setFormData({
         titulo: "",
-        fecha: "",
+        fechaMuestreo: "",
         condicionesClimaticas: "",
-        coordenadas: "",
+        localizacion: { latitud: "", longitud: "" },
         descripcionHabitat: "",
+        creadoPor: "",
       });
+      setMarkerPosition([51.505, -0.09]); // Reiniciar marcador en el mapa
     } catch (error) {
-      Swal.fire(error.response?.data?.message || "Error", "No se pudo crear la bitácora. Inténtalo nuevamente.", "error");
+      const errorMessage = error.response?.data?.message || "No se pudo crear la bitácora. Inténtalo nuevamente.";
+      Swal.fire("Error", errorMessage, "error");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCancel = () => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Se perderán los datos ingresados.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, cancelar",
-      cancelButtonText: "No",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setFormData({
-          titulo: "",
-          fecha: "",
-          condicionesClimaticas: "",
-          coordenadas: "",
-          descripcionHabitat: "",
-        });
-      }
+  const handleMapClick = (e) => {
+    const { lat, lng } = e.latlng;
+    setMarkerPosition([lat, lng]);
+    setFormData({
+      ...formData,
+      localizacion: { latitud: lat, longitud: lng },
     });
   };
 
-  // Componente para manejar clics en el mapa y actualizar el marcador
   const MapClickHandler = () => {
     useMapEvents({
-      click(e) {
-        setMarkerPosition([e.latlng.lat, e.latlng.lng]);
-      },
+      click: handleMapClick,
     });
     return null;
   };
@@ -109,10 +135,10 @@ const CrearBitacora = () => {
           required
         />
         <TextField
-          label="Fecha"
-          name="fecha"
+          label="Fecha de Muestreo"
+          name="fechaMuestreo"
           type="date"
-          value={formData.fecha}
+          value={formData.fechaMuestreo}
           onChange={handleChange}
           InputLabelProps={{ shrink: true }}
           fullWidth
@@ -126,32 +152,47 @@ const CrearBitacora = () => {
           placeholder="Condiciones climáticas"
           style={{ width: "100%", padding: "8px" }}
         />
-        <Box>
-          <Typography variant="h6" gutterBottom>
-            Seleccione Coordenadas
-          </Typography>
-          <MapContainer
-            center={markerPosition}
-            zoom={13}
-            style={{ height: "400px", width: "100%" }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography variant="h6">Localización</Typography>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <TextField
+              label="Latitud"
+              name="latitud"
+              value={formData.localizacion.latitud}
+              onChange={handleChange}
+              placeholder="Latitud"
+              fullWidth
             />
-            <Marker position={markerPosition} />
-            <MapClickHandler />
-          </MapContainer>
-          <TextField
-            label="Coordenadas"
-            name="coordenadas"
-            value={`${markerPosition[0]}, ${markerPosition[1]}`}
-            InputProps={{
-              readOnly: true,
+            <TextField
+              label="Longitud"
+              name="longitud"
+              value={formData.localizacion.longitud}
+              onChange={handleChange}
+              placeholder="Longitud"
+              fullWidth
+            />
+          </Box>
+          <Box
+            sx={{
+              height: "400px",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              overflow: "hidden",
             }}
-            fullWidth
-            margin="normal"
-          />
+          >
+            <MapContainer
+              center={markerPosition}
+              zoom={13}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={markerPosition} />
+              <MapClickHandler />
+            </MapContainer>
+          </Box>
         </Box>
         <TextareaAutosize
           minRows={4}
@@ -165,7 +206,7 @@ const CrearBitacora = () => {
           <Button variant="contained" color="primary" type="submit" disabled={loading}>
             {loading ? <CircularProgress size={20} /> : "Guardar"}
           </Button>
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>
+          <Button variant="outlined" color="secondary" onClick={() => setFormData({})}>
             Cancelar
           </Button>
         </Box>
