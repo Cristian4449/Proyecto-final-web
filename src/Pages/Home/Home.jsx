@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import useUserStore from "../../store/state/useUserStore";
 import { useNavigate } from "react-router-dom";
+import "./Home.css";
+
 
 const Home = () => {
   const user = useUserStore((state) => state.user);
@@ -40,42 +42,51 @@ const Home = () => {
     navigate("/crear-bitacora"); // Navega al componente CrearBitacora
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3}>
         {/* Header */}
-        <AppBar position="static" color="primary">
+        <AppBar id="home-header" position="static">
           <Toolbar sx={{ justifyContent: "space-between" }}>
+          <Typography variant="h6">{user?.username || "Investigadores"}</Typography>
             <Button color="inherit" onClick={handleLogout}>
               Cerrar sesión
             </Button>
-            <Typography variant="h6">{user?.username || "Investigadores"}</Typography>
           </Toolbar>
         </AppBar>
 
         {/* Título */}
-        <Box sx={{ textAlign: "center", marginTop: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Home
+        <Box sx={{ textAlign: "center", marginTop: 8, marginBottom: 6 }}>
+          <Typography id="titulo-tabla" variant="h4" component="h1" gutterBottom>
+            Lista de Bitácoras
           </Typography>
         </Box>
 
         {/* Botones */}
-        <Box sx={{ display: "flex", justifyContent: "center", gap: 2, marginBottom: 4 }}>
-          <Button variant="contained" color="primary" onClick={handleCrearBitacora}>
+        
+        <Box sx={{ display: "flex", justifyContent: "right", gap: 2, marginBottom: 10, marginTop: 4 }}>
+          <Button id="btn-1" variant="contained" color="primary" onClick={handleView}>
+            lista de bitácoras
+          </Button>
+          <Button id="btn-1" variant="contained" onClick={handleCrearBitacora}>
             Crear Bitácora
           </Button>
-          <Button onClick={handleUsuarios} variant="outlined" color="secondary">
+          <Button id="btn-2" onClick={handleUsuarios} variant="outlined" color="secondary">
             Gestionar usuarios
           </Button>
         </Box>
 
         {/* Lista de Bitácoras */}
-        <Box>
-          <Typography variant="h6" gutterBottom>
-            Lista de Bitácoras
-          </Typography>
-          <TableContainer component={Paper}>
+        <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -95,14 +106,8 @@ const Home = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Box>
 
-        {/* Botón para lista de bitácoras */}
-        <Box sx={{ textAlign: "center", marginTop: 4 }}>
-          <Button variant="contained" color="primary" onClick={handleView}>
-            Ir a la lista de bitácoras
-          </Button>
-        </Box>
+
       </Paper>
     </Box>
   );

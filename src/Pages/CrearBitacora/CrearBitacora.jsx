@@ -16,6 +16,7 @@ import {
 import Swal from "sweetalert2";
 import { createBitacora } from "../../services/bitacoraService";
 
+
 const CrearBitacora = () => {
   const [formData, setFormData] = useState({
     titulo: "",
@@ -91,7 +92,16 @@ const CrearBitacora = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Box sx={{ textAlign: "center", marginBottom: 4 }}>
-        <Typography variant="h4">Crear Bitácora</Typography>
+        <Typography  
+        variant="h4"
+        color={"#444445;"}
+        fontSize={35}
+        fontWeight={500}
+        fontFamily={"Poppins"}
+        marginBottom={10}
+        marginTop={8}
+    
+        >Crear Bitácora</Typography>
       </Box>
 
       <Box
@@ -127,12 +137,20 @@ const CrearBitacora = () => {
           style={{ width: "100%", padding: "8px" }}
         />
         <Box>
-          <Typography variant="h6" gutterBottom>
+          <Typography 
+          color={"#444445;"}
+          fontSize={20}
+          fontWeight={500}
+          fontFamily={"Poppins"}
+          variant="h5" 
+          marginBottom={6}
+          marginTop={4}
+          gutterBottom>
             Seleccione Coordenadas
           </Typography>
           <MapContainer
             center={markerPosition}
-            zoom={13}
+            
             style={{ height: "400px", width: "100%" }}
           >
             <TileLayer
@@ -162,10 +180,10 @@ const CrearBitacora = () => {
           style={{ width: "100%", padding: "8px" }}
         />
         <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-          <Button variant="contained" color="primary" type="submit" disabled={loading}>
+          <Button id="btn-1" variant="contained" color="primary" type="submit" disabled={loading}>
             {loading ? <CircularProgress size={20} /> : "Guardar"}
           </Button>
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>
+          <Button id="btn-2" variant="outlined" color="secondary" onClick={handleCancel}>
             Cancelar
           </Button>
         </Box>

@@ -18,6 +18,7 @@ import { getUsers, deleteUser, updateUser } from "../../services/userService";
 import { getRoles } from "../../services/roleService";
 import EditUserModal from "../../Components/EditarUsuario/EditarUsuario";
 import { useNavigate } from "react-router-dom";
+import "./GestionUsuarios.css";
 
 const Users = () => {
   const navigate = useNavigate();
@@ -201,8 +202,11 @@ const Users = () => {
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3} sx={{ padding: 4 }}>
+
+        
+
         <Box sx={{ textAlign: "center", marginBottom: 4 }}>
-          <Typography variant="h4" component="h2">
+          <Typography id="titulo-tabla-users" variant="h4" component="h2">
             Gestión de Usuarios
           </Typography>
         </Box>
@@ -210,7 +214,7 @@ const Users = () => {
         <Box
           sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 2 }}
         >
-          <Button
+          <Button id="btn-1"
             variant="contained"
             color="primary"
             onClick={handleCreateUser}
@@ -241,6 +245,7 @@ const Users = () => {
                     <TableCell>{usuario.status}</TableCell>
                     <TableCell>
                       <Button
+                        id="btn-2"
                         variant="outlined"
                         color="primary"
                         size="small"
@@ -250,6 +255,7 @@ const Users = () => {
                         Editar
                       </Button>
                       <Button
+                        id="btn-3"
                         variant="outlined"
                         color="secondary"
                         size="small"

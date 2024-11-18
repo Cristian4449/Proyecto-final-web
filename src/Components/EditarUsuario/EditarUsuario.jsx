@@ -10,6 +10,7 @@ import {
     MenuItem,
   } from "@mui/material";
   import PropTypes from "prop-types";
+  import "./EditarUsuario.css";
   
   const EditUserModal = ({ open, onClose, formData, onChange, onSave, availableRoles }) => {
     const handleRoleChange = (event) => {
@@ -19,8 +20,8 @@ import {
     };
   
     return (
-      <Modal open={open} onClose={onClose}>
-        <Box
+      <Modal id="modal-edit-user" open={open} onClose={onClose}>
+        <Box id="titulo-modal"
           sx={{
             position: "absolute",
             top: "50%",
@@ -28,8 +29,9 @@ import {
             transform: "translate(-50%, -50%)",
             width: 400,
             bgcolor: "background.paper",
-            border: "2px solid #000",
+            border: "none",
             boxShadow: 24,
+            borderRadius: 2,
             p: 4,
           }}
         >
@@ -77,10 +79,10 @@ import {
             margin="normal"
           />
           <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-            <Button variant="outlined" color="secondary" onClick={onClose}>
+            <Button id="btn-2" variant="outlined" onClick={onClose}>
               Cancelar
             </Button>
-            <Button variant="contained" color="primary" onClick={onSave}>
+            <Button id="btn-1" variant="contained" onClick={onSave}>
               Guardar Cambios
             </Button>
           </Box>

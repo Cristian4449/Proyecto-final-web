@@ -13,12 +13,16 @@ import Swal from "sweetalert2";
 import { login } from "../../services/authService";
 import logo from "../../assets/ingSis.png";
 import useUserStore from "../../store/state/useUserStore";
+import "./Login.css";
+
+
 
 function Login() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -51,8 +55,9 @@ function Login() {
   };
 
   return (
-    <Container id="body" maxWidth="sm">
-      <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>
+    
+    <Container id="body" maxWidth="sm" >
+      <Paper id="paper-root" elevation={3} sx={{ padding: 4, textAlign: "center", borderRadius: 2}}>
         <Box
           sx={{
             display: "flex",
@@ -63,10 +68,10 @@ function Login() {
           <img
             src={logo}
             alt="Logo Ingeniería de Sistemas"
-            style={{ width: 100, marginBottom: 16 }}
+            style={{ width: 180, marginBottom: 16 }}
           />
-          <Typography variant="h4" component="h2" gutterBottom>
-            Iniciar sesión
+          <Typography id="tipografia" variant="h4" component="h2" gutterBottom>
+            Iniciar Sesión
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
           <Box
@@ -77,6 +82,7 @@ function Login() {
               flexDirection: "column",
               gap: 2,
               width: "100%",
+              marginTop: 3,
             }}
           >
             <TextField
@@ -99,19 +105,41 @@ function Login() {
               fullWidth
               required
             />
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: "#4caf50",
+                color: "#fff",
+                marginTop: 2,
+                "&:hover": {
+                  backgroundColor: "#388e3c",
+                },
+              }}
+            >
               Iniciar Sesión
             </Button>
+            
+          </Box>
+          <Box sx={{ marginTop: 2}}>
+          <Typography variant="body2">
+            ¿Aún no tienes cuenta? {" "}
             <Button
               onClick={handleRegistro}
-              type="button"
-              variant="outlined"
-              color="secondary"
-              fullWidth
+              sx={{
+                cursor: "pointer",
+                color: "#29A749",
+                textTransform: "none",
+                padding: 0,
+                "&:hover": { textDecoration: "underline" },
+                backgroundColor: "transparent",
+              }}
             >
-              Registrarse
+              Regístrate
             </Button>
-          </Box>
+          </Typography>
+            </Box>
         </Box>
         <Box sx={{ marginTop: 4, textAlign: "center" }}>
           <Typography variant="body2" color="textSecondary">

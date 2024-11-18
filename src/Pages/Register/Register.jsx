@@ -75,7 +75,7 @@ function Register() {
 
   return (
     <Container id="body" maxWidth="sm">
-      <Paper elevation={3} sx={{ padding: 4, textAlign: "center" }}>
+      <Paper id="paper-root" elevation={3} sx={{ padding: 4, textAlign: "center", borderRadius: 2}}>
         <Box
           sx={{
             display: "flex",
@@ -86,9 +86,9 @@ function Register() {
           <img
             src={logo}
             alt="Logo Ingeniería de Sistemas"
-            style={{ width: 100, marginBottom: 16 }}
+            style={{ width: 180, marginBottom: 16 }}
           />
-          <Typography variant="h4" component="h2" gutterBottom>
+          <Typography id="tipografia" variant="h4" component="h2" gutterBottom>
             Crear usuario
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
@@ -142,17 +142,39 @@ function Register() {
                 </Select>
               )}
             </FormControl>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Registrar
-            </Button>
             <Button
-              variant="outlined"
-              color="secondary"
+              type="submit"
+              variant="contained"
               fullWidth
-              href="/"
+              sx={{
+                backgroundColor: "#4caf50",
+                color: "#fff",
+                marginTop: 2,
+                "&:hover": {
+                  backgroundColor: "#388e3c",
+                },
+              }}
             >
-              ¿Ya tienes cuenta? Inicia sesión
+              Registrarme
             </Button>
+            <Box sx={{ marginTop: 2}}>
+          <Typography variant="body2">
+            ¿Ya tienes cuenta? {" "}
+            <Button
+              href="/"
+              sx={{
+                cursor: "pointer",
+                color: "#29A749",
+                textTransform: "none",
+                padding: 0,
+                "&:hover": { textDecoration: "underline" },
+                backgroundColor: "transparent",
+              }}
+            >
+              Inicia Sesión
+            </Button>
+          </Typography>
+            </Box>
           </Box>
         </Box>
       </Paper>
